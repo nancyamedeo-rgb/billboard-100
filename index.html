@@ -25,15 +25,15 @@
     margin-bottom: 4px;
   }
   .header-logo {
-    width: 28px;
-    height: 28px;
+    width: 40px;
+    height: 40px;
     background: #c8102e;
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 500;
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: -0.5px;
     color: white;
     flex-shrink: 0;
@@ -45,7 +45,7 @@
     flex: 1;
   }
   .header-date {
-    font-size: 16px;
+    font-size: 20px;
     color: rgba(255,255,255,0.55);
   }
   .scroll-container {
@@ -67,7 +67,7 @@
     font-size: 28px;
     font-weight: 500;
     color: rgba(255,255,255,0.4);
-    width: 36px;
+    width: 48px;
     text-align: right;
     flex-shrink: 0;
   }
@@ -96,6 +96,7 @@
   }
   .song-artist {
     font-size: 32px;
+    color: rgba(255,255,255,0.55);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -126,7 +127,7 @@
   .dot-pulse div:nth-child(2) { animation-delay: 0.2s; }
   .dot-pulse div:nth-child(3) { animation-delay: 0.4s; }
   @keyframes pulse { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
-  .error { color: rgba(255,255,255,0.5); font-size: 12px; text-align: center; padding: 20px; }
+  .error { color: rgba(255,255,255,0.5); font-size: 20px; text-align: center; padding: 20px; }
 </style>
 </head>
 <body>
@@ -198,28 +199,61 @@ function startScroll(track) {
 
 async function fetchChart() {
   const now = Date.now();
-  const cached = localStorage.getItem(CACHE_KEY);
-  const cachedTs = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
-  if (cached && (now - cachedTs) < ONE_DAY) {
-    return JSON.parse(cached);
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    const cachedTs = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
+    if (cached && (now - cachedTs) < ONE_DAY) {
+      return JSON.parse(cached);
+    }
+  } catch(e) {}
+
+  // Fetch Billboard Hot 100 via allorigins (free CORS proxy)
+  const url = 'https://www.billboard.com/charts/hot-100/';
+  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+  const res = await fetch(proxyUrl);
+  const json = await res.json();
+  const html = json.contents;
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  // Extract chart week
+  const weekEl = doc.querySelector('.chart-detail-header__chart-date-subtitle, time');
+  const week = weekEl ? weekEl.textContent.trim() : formatDate(new Date());
+
+  // Extract songs — Billboard's markup uses li rows with h3 for title
+  const songs = [];
+
+  doc.querySelectorAll('li.o-chart-results-list__item').forEach(row => {
+    const titleEl = row.querySelector('h3#title-of-a-story');
+    if (!titleEl) return;
+    const title = titleEl.textContent.trim();
+    // Artist is typically the next sibling span after the h3
+    const artistEl = titleEl.nextElementSibling;
+    const artist = artistEl ? artistEl.textContent.trim() : '';
+    // Weeks on chart label
+    const allLabels = row.querySelectorAll('.c-label');
+    let weeks = 1;
+    allLabels.forEach(el => {
+      const n = parseInt(el.textContent.trim());
+      if (!isNaN(n) && n > 0) weeks = n;
+    });
+    songs.push({ title, artist, weeks });
+  });
+
+  // Fallback selector if Billboard changes markup
+  if (songs.length === 0) {
+    doc.querySelectorAll('[class*="chart-results-list"] h3').forEach((el, i) => {
+      const title = el.textContent.trim();
+      if (title) songs.push({ title, artist: '', weeks: 1 });
+    });
   }
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1000,
-      system: 'You are a music data assistant. Respond ONLY with valid JSON. No markdown, no explanation, no code fences. Return an object with keys: "week" (string, chart week date), "songs" (array of 100 objects each with "title" (string), "artist" (string), "weeks" (integer on chart)). Use your best knowledge of Billboard Hot 100 as of your knowledge cutoff. Fill all 100 entries.',
-      messages: [{ role: 'user', content: 'Give me the Billboard Hot 100 chart. Return only the JSON object described.' }]
-    })
-  });
-  const data = await res.json();
-  const raw = data.content.map(b => b.type === 'text' ? b.text : '').join('');
-  const clean = raw.replace(/```[a-z]*\n?/gi, '').trim();
-  const parsed = JSON.parse(clean);
-  localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
-  localStorage.setItem(CACHE_TS_KEY, String(now));
+  const parsed = { week, songs: songs.slice(0, 100) };
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
+    localStorage.setItem(CACHE_TS_KEY, String(now));
+  } catch(e) {}
   return parsed;
 }
 
@@ -229,7 +263,12 @@ async function init() {
     const dateEl = document.getElementById('chart-date');
     if (dateEl) dateEl.textContent = chart.week || formatDate(new Date());
     const track = document.getElementById('scroll-track');
-    const html = buildRows(chart.songs || []);
+    const songs = chart.songs || [];
+    if (songs.length === 0) {
+      track.innerHTML = '<div class="error">No chart data found.<br>Billboard may have updated their page layout.</div>';
+      return;
+    }
+    const html = buildRows(songs);
     track.innerHTML = html + html;
     startScroll(track);
   } catch(e) {
