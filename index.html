@@ -115,19 +115,19 @@
     justify-content: center;
     height: 200px;
     color: rgba(255,255,255,0.5);
-    font-size: 13px;
+    font-size: 20px;
     gap: 8px;
   }
   .dot-pulse { display: inline-flex; gap: 4px; }
   .dot-pulse div {
-    width: 6px; height: 6px; border-radius: 50%;
+    width: 8px; height: 8px; border-radius: 50%;
     background: rgba(255,255,255,0.4);
     animation: pulse 1.2s ease-in-out infinite;
   }
   .dot-pulse div:nth-child(2) { animation-delay: 0.2s; }
   .dot-pulse div:nth-child(3) { animation-delay: 0.4s; }
   @keyframes pulse { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
-  .error { color: rgba(255,255,255,0.5); font-size: 20px; text-align: center; padding: 20px; }
+  .error { color: rgba(255,255,255,0.5); font-size: 20px; text-align: center; padding: 20px; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -141,7 +141,7 @@
     <div class="scroll-track" id="scroll-track">
       <div class="loading" id="loading-msg">
         <div class="dot-pulse"><div></div><div></div><div></div></div>
-        Fetching chart data…
+        &nbsp;Fetching chart data…
       </div>
     </div>
   </div>
@@ -155,11 +155,9 @@ const ONE_DAY = 86400000;
 const SWATCHES = ['#1a1a2e','#16213e','#0f3460','#533483','#2d6a4f','#1b4332','#6b2d3e','#3d405b','#2c3e50','#1a3a4a'];
 
 function getSwatch(i) { return SWATCHES[i % SWATCHES.length]; }
-
 function getInitials(title) {
   return title.split(' ').slice(0,2).map(w => w[0] || '').join('').toUpperCase() || '♪';
 }
-
 function formatDate(d) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -197,6 +195,75 @@ function startScroll(track) {
   animFrame = requestAnimationFrame(step);
 }
 
+function parseBillboardHTML(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const songs = [];
+
+  // Strategy 1: standard li rows
+  doc.querySelectorAll('li.o-chart-results-list__item').forEach(row => {
+    const titleEl = row.querySelector('h3#title-of-a-story');
+    if (!titleEl) return;
+    const title = titleEl.textContent.trim();
+    const artistEl = titleEl.nextElementSibling;
+    const artist = artistEl ? artistEl.textContent.trim() : '';
+    const allLabels = row.querySelectorAll('.c-label');
+    let weeks = 1;
+    allLabels.forEach(el => {
+      const n = parseInt(el.textContent.trim());
+      if (!isNaN(n) && n > 0 && n < 200) weeks = n;
+    });
+    if (title) songs.push({ title, artist, weeks });
+  });
+
+  // Strategy 2: any h3 with chart-like context
+  if (songs.length === 0) {
+    doc.querySelectorAll('h3').forEach(el => {
+      const text = el.textContent.trim();
+      if (text && text.length < 120 && !text.includes('\n')) {
+        const next = el.nextElementSibling;
+        const artist = next ? next.textContent.trim() : '';
+        songs.push({ title: text, artist, weeks: 1 });
+      }
+    });
+  }
+
+  // Extract week date
+  const weekEl = doc.querySelector('.chart-detail-header__chart-date-subtitle, [class*="chart-date"], time');
+  const week = weekEl ? weekEl.textContent.trim() : formatDate(new Date());
+
+  return { week, songs: songs.slice(0, 100) };
+}
+
+// Try multiple free CORS proxies in sequence
+async function fetchWithProxies(targetUrl) {
+  const proxies = [
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+    url => `https://thingproxy.freeboard.io/fetch/${url}`,
+  ];
+
+  for (const makeProxy of proxies) {
+    try {
+      const proxyUrl = makeProxy(targetUrl);
+      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
+      if (!res.ok) continue;
+      const text = await res.text();
+      // codetabs returns JSON with .contents like allorigins
+      if (text.trim().startsWith('{')) {
+        try {
+          const j = JSON.parse(text);
+          if (j.contents) return j.contents;
+        } catch(e) {}
+      }
+      return text;
+    } catch(e) {
+      console.warn('Proxy failed:', e.message);
+    }
+  }
+  throw new Error('All proxies failed. Check network or try again later.');
+}
+
 async function fetchChart() {
   const now = Date.now();
   try {
@@ -207,53 +274,14 @@ async function fetchChart() {
     }
   } catch(e) {}
 
-  // Fetch Billboard Hot 100 via allorigins (free CORS proxy)
-  const url = 'https://www.billboard.com/charts/hot-100/';
-  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-  const res = await fetch(proxyUrl);
-  const json = await res.json();
-  const html = json.contents;
+  const html = await fetchWithProxies('https://www.billboard.com/charts/hot-100/');
+  const parsed = parseBillboardHTML(html);
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-
-  // Extract chart week
-  const weekEl = doc.querySelector('.chart-detail-header__chart-date-subtitle, time');
-  const week = weekEl ? weekEl.textContent.trim() : formatDate(new Date());
-
-  // Extract songs — Billboard's markup uses li rows with h3 for title
-  const songs = [];
-
-  doc.querySelectorAll('li.o-chart-results-list__item').forEach(row => {
-    const titleEl = row.querySelector('h3#title-of-a-story');
-    if (!titleEl) return;
-    const title = titleEl.textContent.trim();
-    // Artist is typically the next sibling span after the h3
-    const artistEl = titleEl.nextElementSibling;
-    const artist = artistEl ? artistEl.textContent.trim() : '';
-    // Weeks on chart label
-    const allLabels = row.querySelectorAll('.c-label');
-    let weeks = 1;
-    allLabels.forEach(el => {
-      const n = parseInt(el.textContent.trim());
-      if (!isNaN(n) && n > 0) weeks = n;
-    });
-    songs.push({ title, artist, weeks });
-  });
-
-  // Fallback selector if Billboard changes markup
-  if (songs.length === 0) {
-    doc.querySelectorAll('[class*="chart-results-list"] h3').forEach((el, i) => {
-      const title = el.textContent.trim();
-      if (title) songs.push({ title, artist: '', weeks: 1 });
-    });
-  }
-
-  const parsed = { week, songs: songs.slice(0, 100) };
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
     localStorage.setItem(CACHE_TS_KEY, String(now));
   } catch(e) {}
+
   return parsed;
 }
 
