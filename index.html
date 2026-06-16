@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Billboard Hot 100</title>
+<title>Top Songs Chart</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body, html { background: transparent; }
@@ -32,8 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 18px;
+    font-size: 22px;
     color: white;
     flex-shrink: 0;
   }
@@ -75,19 +74,6 @@
     border-radius: 6px;
     flex-shrink: 0;
     object-fit: cover;
-    background: #333;
-  }
-  .art-placeholder {
-    width: 52px;
-    height: 52px;
-    border-radius: 6px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.85);
   }
   .song-info { flex: 1; min-width: 0; }
   .song-title {
@@ -131,7 +117,7 @@
 <div id="widget">
   <div class="header">
     <div class="header-logo">♪</div>
-    <div class="header-title">Apple Music Top 100</div>
+    <div class="header-title">iTunes Top 100 Songs</div>
     <div class="header-date" id="chart-date"></div>
   </div>
   <div class="scroll-container">
@@ -145,15 +131,10 @@
 </div>
 
 <script>
-const CACHE_KEY = 'applemusic_top100_cache';
-const CACHE_TS_KEY = 'applemusic_top100_ts';
+const CACHE_KEY = 'itunes_top100_cache';
+const CACHE_TS_KEY = 'itunes_top100_ts';
 const ONE_DAY = 86400000;
 
-const SWATCHES = ['#1a1a2e','#16213e','#0f3460','#533483','#2d6a4f','#1b4332','#6b2d3e','#3d405b','#2c3e50','#1a3a4a'];
-function getSwatch(i) { return SWATCHES[i % SWATCHES.length]; }
-function getInitials(title) {
-  return title.split(' ').slice(0,2).map(w => w[0] || '').join('').toUpperCase() || '♪';
-}
 function formatDate(d) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -162,12 +143,9 @@ function buildRows(songs) {
   return songs.map((s, i) => {
     const rank = i + 1;
     const rankClass = rank <= 3 ? 'rank top3' : 'rank';
-    const artEl = s.art
-      ? `<img class="art" src="${s.art}" alt="" loading="lazy">`
-      : `<div class="art-placeholder" style="background:${getSwatch(i)}">${getInitials(s.title)}</div>`;
     return `<div class="track-row">
       <div class="${rankClass}">${rank}</div>
-      ${artEl}
+      <img class="art" src="${s.art}" alt="" loading="lazy">
       <div class="song-info">
         <div class="song-title">${s.title}</div>
         <div class="song-artist">${s.artist}</div>
@@ -200,17 +178,18 @@ async function fetchChart() {
     }
   } catch(e) {}
 
-  // Apple Music Top 100 Songs (US) — official free RSS feed, no key, no CORS issues
-  const feedUrl = 'https://rss.applemarketingtools.com/api/v2/us/music/most-played/100/songs.json';
+  // iTunes Top Songs RSS feed — CORS-enabled, free, no key required
+  // Using the JSON feed endpoint which Apple explicitly supports cross-origin
+  const feedUrl = 'https://itunes.apple.com/us/rss/topsongs/limit=100/json';
   const res = await fetch(feedUrl);
   if (!res.ok) throw new Error(`Feed returned ${res.status}`);
   const json = await res.json();
 
-  const results = json.feed.results || [];
-  const songs = results.map(item => ({
-    title: item.name,
-    artist: item.artistName,
-    art: item.artworkUrl100 || null,
+  const entries = json.feed.entry || [];
+  const songs = entries.map(entry => ({
+    title: entry['im:name'].label,
+    artist: entry['im:artist'].label,
+    art: entry['im:image']?.[2]?.label || entry['im:image']?.[0]?.label || '',
   }));
 
   const week = formatDate(new Date());
