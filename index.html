@@ -27,14 +27,13 @@
   .header-logo {
     width: 40px;
     height: 40px;
-    background: #c8102e;
-    border-radius: 4px;
+    background: #fc3c44;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: -0.5px;
+    font-weight: 700;
+    font-size: 18px;
     color: white;
     flex-shrink: 0;
   }
@@ -53,9 +52,7 @@
     overflow: hidden;
     position: relative;
   }
-  .scroll-track {
-    will-change: transform;
-  }
+  .scroll-track { will-change: transform; }
   .track-row {
     display: flex;
     align-items: center;
@@ -72,7 +69,15 @@
     flex-shrink: 0;
   }
   .rank.top3 { color: #f5c842; }
-  .color-swatch {
+  .art {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    object-fit: cover;
+    background: #333;
+  }
+  .art-placeholder {
     width: 52px;
     height: 52px;
     border-radius: 6px;
@@ -83,7 +88,6 @@
     font-size: 15px;
     font-weight: 500;
     color: rgba(255,255,255,0.85);
-    overflow: hidden;
   }
   .song-info { flex: 1; min-width: 0; }
   .song-title {
@@ -102,13 +106,6 @@
     text-overflow: ellipsis;
     margin-top: 2px;
   }
-  .weeks {
-    font-size: 24px;
-    color: rgba(255,255,255,0.4);
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .weeks span { display: block; font-size: 18px; color: rgba(255,255,255,0.25); }
   .loading {
     display: flex;
     align-items: center;
@@ -133,13 +130,13 @@
 <body>
 <div id="widget">
   <div class="header">
-    <div class="header-logo">BB</div>
-    <div class="header-title">Billboard Hot 100</div>
+    <div class="header-logo">♪</div>
+    <div class="header-title">Apple Music Top 100</div>
     <div class="header-date" id="chart-date"></div>
   </div>
   <div class="scroll-container">
     <div class="scroll-track" id="scroll-track">
-      <div class="loading" id="loading-msg">
+      <div class="loading">
         <div class="dot-pulse"><div></div><div></div><div></div></div>
         &nbsp;Fetching chart data…
       </div>
@@ -148,12 +145,11 @@
 </div>
 
 <script>
-const CACHE_KEY = 'billboard_hot100_cache';
-const CACHE_TS_KEY = 'billboard_hot100_ts';
+const CACHE_KEY = 'applemusic_top100_cache';
+const CACHE_TS_KEY = 'applemusic_top100_ts';
 const ONE_DAY = 86400000;
 
 const SWATCHES = ['#1a1a2e','#16213e','#0f3460','#533483','#2d6a4f','#1b4332','#6b2d3e','#3d405b','#2c3e50','#1a3a4a'];
-
 function getSwatch(i) { return SWATCHES[i % SWATCHES.length]; }
 function getInitials(title) {
   return title.split(' ').slice(0,2).map(w => w[0] || '').join('').toUpperCase() || '♪';
@@ -166,17 +162,16 @@ function buildRows(songs) {
   return songs.map((s, i) => {
     const rank = i + 1;
     const rankClass = rank <= 3 ? 'rank top3' : 'rank';
-    const swatch = getSwatch(i);
-    const initials = getInitials(s.title);
-    const weeksLabel = s.weeks === 1 ? '1 wk' : `${s.weeks} wks`;
+    const artEl = s.art
+      ? `<img class="art" src="${s.art}" alt="" loading="lazy">`
+      : `<div class="art-placeholder" style="background:${getSwatch(i)}">${getInitials(s.title)}</div>`;
     return `<div class="track-row">
       <div class="${rankClass}">${rank}</div>
-      <div class="color-swatch" style="background:${swatch}">${initials}</div>
+      ${artEl}
       <div class="song-info">
         <div class="song-title">${s.title}</div>
         <div class="song-artist">${s.artist}</div>
       </div>
-      <div class="weeks">${weeksLabel}<span>on chart</span></div>
     </div>`;
   }).join('');
 }
@@ -195,75 +190,6 @@ function startScroll(track) {
   animFrame = requestAnimationFrame(step);
 }
 
-function parseBillboardHTML(html) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const songs = [];
-
-  // Strategy 1: standard li rows
-  doc.querySelectorAll('li.o-chart-results-list__item').forEach(row => {
-    const titleEl = row.querySelector('h3#title-of-a-story');
-    if (!titleEl) return;
-    const title = titleEl.textContent.trim();
-    const artistEl = titleEl.nextElementSibling;
-    const artist = artistEl ? artistEl.textContent.trim() : '';
-    const allLabels = row.querySelectorAll('.c-label');
-    let weeks = 1;
-    allLabels.forEach(el => {
-      const n = parseInt(el.textContent.trim());
-      if (!isNaN(n) && n > 0 && n < 200) weeks = n;
-    });
-    if (title) songs.push({ title, artist, weeks });
-  });
-
-  // Strategy 2: any h3 with chart-like context
-  if (songs.length === 0) {
-    doc.querySelectorAll('h3').forEach(el => {
-      const text = el.textContent.trim();
-      if (text && text.length < 120 && !text.includes('\n')) {
-        const next = el.nextElementSibling;
-        const artist = next ? next.textContent.trim() : '';
-        songs.push({ title: text, artist, weeks: 1 });
-      }
-    });
-  }
-
-  // Extract week date
-  const weekEl = doc.querySelector('.chart-detail-header__chart-date-subtitle, [class*="chart-date"], time');
-  const week = weekEl ? weekEl.textContent.trim() : formatDate(new Date());
-
-  return { week, songs: songs.slice(0, 100) };
-}
-
-// Try multiple free CORS proxies in sequence
-async function fetchWithProxies(targetUrl) {
-  const proxies = [
-    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-    url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-    url => `https://thingproxy.freeboard.io/fetch/${url}`,
-  ];
-
-  for (const makeProxy of proxies) {
-    try {
-      const proxyUrl = makeProxy(targetUrl);
-      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
-      if (!res.ok) continue;
-      const text = await res.text();
-      // codetabs returns JSON with .contents like allorigins
-      if (text.trim().startsWith('{')) {
-        try {
-          const j = JSON.parse(text);
-          if (j.contents) return j.contents;
-        } catch(e) {}
-      }
-      return text;
-    } catch(e) {
-      console.warn('Proxy failed:', e.message);
-    }
-  }
-  throw new Error('All proxies failed. Check network or try again later.');
-}
-
 async function fetchChart() {
   const now = Date.now();
   try {
@@ -274,8 +200,21 @@ async function fetchChart() {
     }
   } catch(e) {}
 
-  const html = await fetchWithProxies('https://www.billboard.com/charts/hot-100/');
-  const parsed = parseBillboardHTML(html);
+  // Apple Music Top 100 Songs (US) — official free RSS feed, no key, no CORS issues
+  const feedUrl = 'https://rss.applemarketingtools.com/api/v2/us/music/most-played/100/songs.json';
+  const res = await fetch(feedUrl);
+  if (!res.ok) throw new Error(`Feed returned ${res.status}`);
+  const json = await res.json();
+
+  const results = json.feed.results || [];
+  const songs = results.map(item => ({
+    title: item.name,
+    artist: item.artistName,
+    art: item.artworkUrl100 || null,
+  }));
+
+  const week = formatDate(new Date());
+  const parsed = { week, songs };
 
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
@@ -293,7 +232,7 @@ async function init() {
     const track = document.getElementById('scroll-track');
     const songs = chart.songs || [];
     if (songs.length === 0) {
-      track.innerHTML = '<div class="error">No chart data found.<br>Billboard may have updated their page layout.</div>';
+      track.innerHTML = '<div class="error">No chart data found.</div>';
       return;
     }
     const html = buildRows(songs);
