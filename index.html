@@ -39,13 +39,13 @@
     flex-shrink: 0;
   }
   .header-title {
-    font-size: 15px;
+    font-size: 20px;
     font-weight: 500;
     color: white;
     flex: 1;
   }
   .header-date {
-    font-size: 12px;
+    font-size: 16px;
     color: rgba(255,255,255,0.55);
   }
   .scroll-container {
@@ -59,35 +59,35 @@
   .track-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 7px 2px;
+    gap: 14px;
+    padding: 10px 2px;
     border-bottom: 0.5px solid rgba(255,255,255,0.08);
   }
   .rank {
-    font-size: 13px;
+    font-size: 18px;
     font-weight: 500;
     color: rgba(255,255,255,0.4);
-    width: 26px;
+    width: 36px;
     text-align: right;
     flex-shrink: 0;
   }
   .rank.top3 { color: #f5c842; }
   .color-swatch {
-    width: 36px;
-    height: 36px;
-    border-radius: 4px;
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 500;
     color: rgba(255,255,255,0.85);
     overflow: hidden;
   }
   .song-info { flex: 1; min-width: 0; }
   .song-title {
-    font-size: 13px;
+    font-size: 19px;
     font-weight: 500;
     color: white;
     white-space: nowrap;
@@ -95,20 +95,20 @@
     text-overflow: ellipsis;
   }
   .song-artist {
-    font-size: 11px;
+    font-size: 15px;
     color: rgba(255,255,255,0.55);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 1px;
+    margin-top: 2px;
   }
   .weeks {
-    font-size: 11px;
+    font-size: 15px;
     color: rgba(255,255,255,0.4);
     text-align: right;
     flex-shrink: 0;
   }
-  .weeks span { display: block; font-size: 10px; color: rgba(255,255,255,0.25); }
+  .weeks span { display: block; font-size: 13px; color: rgba(255,255,255,0.25); }
   .loading {
     display: flex;
     align-items: center;
@@ -152,111 +152,6 @@ const CACHE_KEY = 'billboard_hot100_cache';
 const CACHE_TS_KEY = 'billboard_hot100_ts';
 const ONE_DAY = 86400000;
 
-// ── Current chart data (week of June 14, 2026) ────────────────────────────
-// Update this block weekly from billboard.com/charts/hot-100
-const CHART_DATA = {
-  week: "Week of June 14, 2026",
-  songs: [
-    { title: "Choosin' Texas",           artist: "Ella Langley",                    weeks: 22 },
-    { title: "I Just Might",             artist: "Bruno Mars",                      weeks: 19 },
-    { title: "Man I Need",               artist: "Olivia Dean",                     weeks: 27 },
-    { title: "So Easy (To Fall in Love)",artist: "Olivia Dean",                     weeks: 10 },
-    { title: "Be Her",                   artist: "Ella Langley",                    weeks: 7  },
-    { title: "End of Beginning",         artist: "Djo",                             weeks: 3  },
-    { title: "Swim",                     artist: "BTS",                             weeks: 4  },
-    { title: "Drop Dead",                artist: "Olivia Rodrigo",                  weeks: 4  },
-    { title: "Risk It All",              artist: "Bruno Mars",                      weeks: 2  },
-    { title: "The Great Divide",         artist: "Noah Kahan",                      weeks: 1  },
-    { title: "American Girls",           artist: "Harry Styles",                    weeks: 2  },
-    { title: "Janice STFU",              artist: "Drake",                           weeks: 6  },
-    { title: "Aperture",                 artist: "Harry Styles",                    weeks: 2  },
-    { title: "Stateside",                artist: "PinkPantheress ft. Zara Larsson", weeks: 7  },
-    { title: "Doors",                    artist: "Noah Kahan",                      weeks: 1  },
-    { title: "Folded",                   artist: "Kehlani",                         weeks: 19 },
-    { title: "Back to Friends",          artist: "Sombr",                           weeks: 9  },
-    { title: "Opalite",                  artist: "Taylor Swift",                    weeks: 19 },
-    { title: "Dracula",                  artist: "Tame Impala & Jennie",            weeks: 2  },
-    { title: "DTMF",                     artist: "Bad Bunny",                       weeks: 7  },
-    { title: "I Can't Love You Anymore", artist: "Ella Langley & Morgan Wallen",   weeks: 2  },
-    { title: "Luther",                   artist: "Kendrick Lamar & SZA",            weeks: 52 },
-    { title: "Die with a Smile",         artist: "Lady Gaga & Bruno Mars",          weeks: 48 },
-    { title: "APT.",                     artist: "ROSÉ & Bruno Mars",               weeks: 36 },
-    { title: "Not Like Us",              artist: "Kendrick Lamar",                  weeks: 44 },
-    { title: "Beautiful Things",         artist: "Benson Boone",                    weeks: 55 },
-    { title: "Good Luck, Babe!",         artist: "Chappell Roan",                   weeks: 50 },
-    { title: "espresso",                 artist: "Sabrina Carpenter",               weeks: 58 },
-    { title: "Please Please Please",     artist: "Sabrina Carpenter",               weeks: 42 },
-    { title: "Birds of a Feather",       artist: "Billie Eilish",                   weeks: 60 },
-    { title: "A Bar Song (Tipsy)",       artist: "Shaboozey",                       weeks: 61 },
-    { title: "I Had Some Help",          artist: "Post Malone ft. Morgan Wallen",   weeks: 45 },
-    { title: "Texas Hold 'Em",           artist: "Beyoncé",                         weeks: 40 },
-    { title: "Lose Control",             artist: "Teddy Swims",                     weeks: 56 },
-    { title: "Timeless",                 artist: "The Weeknd & Playboi Carti",      weeks: 30 },
-    { title: "Million Dollar Baby",      artist: "Tommy Richman",                   weeks: 38 },
-    { title: "Too Sweet",                artist: "Hozier",                          weeks: 44 },
-    { title: "White Flag",               artist: "Dasha",                           weeks: 35 },
-    { title: "We Can't Be Friends",      artist: "Ariana Grande",                   weeks: 40 },
-    { title: "Stick Season",             artist: "Noah Kahan",                      weeks: 66 },
-    { title: "Stargazing",               artist: "Myles Smith",                     weeks: 28 },
-    { title: "Slow It Down",             artist: "Benson Boone",                    weeks: 22 },
-    { title: "The Emptiness Machine",    artist: "Linkin Park",                     weeks: 24 },
-    { title: "7 Minutes",                artist: "Lizzy McAlpine",                  weeks: 18 },
-    { title: "Doubt",                    artist: "Sabrina Carpenter",               weeks: 14 },
-    { title: "Nokia",                    artist: "Drake & Central Cee",             weeks: 16 },
-    { title: "That's So True",           artist: "Gracie Abrams",                   weeks: 32 },
-    { title: "Who",                      artist: "Jimin",                           weeks: 10 },
-    { title: "Cruel Summer",             artist: "Taylor Swift",                    weeks: 118 },
-    { title: "I Like the Way You Kiss Me",artist: "Artemas",                        weeks: 30 },
-    { title: "Wildflower",               artist: "Billie Eilish",                   weeks: 20 },
-    { title: "Messy",                    artist: "Lola Young",                      weeks: 25 },
-    { title: "Nights Like This",         artist: "Kehlani ft. Ty Dolla $ign",       weeks: 22 },
-    { title: "Pink Pony Club",           artist: "Chappell Roan",                   weeks: 44 },
-    { title: "I Am Not Okay",            artist: "Jelly Roll",                      weeks: 28 },
-    { title: "Bulletproof",              artist: "Tate McRae",                      weeks: 18 },
-    { title: "Run",                      artist: "Hozier",                          weeks: 20 },
-    { title: "Saturn",                   artist: "SZA",                             weeks: 42 },
-    { title: "My Love Mine All Mine",    artist: "Mitski",                          weeks: 48 },
-    { title: "One of the Girls",         artist: "The Weeknd",                      weeks: 38 },
-    { title: "Is It Over Now?",          artist: "Taylor Swift",                    weeks: 36 },
-    { title: "Belong Together",          artist: "Mark Ambor",                      weeks: 30 },
-    { title: "Beautiful Boy",            artist: "Matt Hansen",                     weeks: 15 },
-    { title: "Pedal to the Metal",       artist: "Shaboozey",                       weeks: 20 },
-    { title: "Fantasy",                  artist: "Mariah Carey",                    weeks: 8  },
-    { title: "Make You Mine",            artist: "Madison Beer",                    weeks: 22 },
-    { title: "Chicago",                  artist: "Sufjan Stevens",                  weeks: 18 },
-    { title: "Guilty as Sin?",           artist: "Taylor Swift",                    weeks: 34 },
-    { title: "22",                       artist: "Taylor Swift",                    weeks: 28 },
-    { title: "Supernatural",             artist: "NewJeans",                        weeks: 16 },
-    { title: "Abracadabra",              artist: "Lady Gaga",                       weeks: 10 },
-    { title: "Sweet Nothing",            artist: "Taylor Swift",                    weeks: 30 },
-    { title: "All Eyes on Me",           artist: "Bo Burnham",                      weeks: 40 },
-    { title: "Lacy",                     artist: "Olivia Rodrigo",                  weeks: 36 },
-    { title: "Daylight",                 artist: "Taylor Swift",                    weeks: 32 },
-    { title: "Fortnight",                artist: "Taylor Swift ft. Post Malone",    weeks: 26 },
-    { title: "Femininomenon",            artist: "Chappell Roan",                   weeks: 40 },
-    { title: "Lunch",                    artist: "Billie Eilish",                   weeks: 28 },
-    { title: "Bed Chem",                 artist: "Sabrina Carpenter",               weeks: 22 },
-    { title: "Taste",                    artist: "Sabrina Carpenter",               weeks: 20 },
-    { title: "Coincidence",              artist: "Sabrina Carpenter",               weeks: 18 },
-    { title: "Driver's License",         artist: "Olivia Rodrigo",                  weeks: 80 },
-    { title: "Fearless",                 artist: "Taylor Swift",                    weeks: 24 },
-    { title: "Shake It Off",             artist: "Taylor Swift",                    weeks: 110 },
-    { title: "Lover",                    artist: "Taylor Swift",                    weeks: 56 },
-    { title: "Anti-Hero",                artist: "Taylor Swift",                    weeks: 72 },
-    { title: "Flowers",                  artist: "Miley Cyrus",                     weeks: 44 },
-    { title: "As It Was",                artist: "Harry Styles",                    weeks: 78 },
-    { title: "Unholy",                   artist: "Sam Smith & Kim Petras",          weeks: 38 },
-    { title: "Rich Flex",                artist: "Drake & 21 Savage",               weeks: 36 },
-    { title: "Super Freaky Girl",        artist: "Nicki Minaj",                     weeks: 32 },
-    { title: "About Damn Time",          artist: "Lizzo",                           weeks: 40 },
-    { title: "Running Up That Hill",     artist: "Kate Bush",                       weeks: 60 },
-    { title: "Heat Waves",               artist: "Glass Animals",                   weeks: 90 },
-    { title: "Levitating",               artist: "Dua Lipa ft. DaBaby",            weeks: 76 },
-    { title: "Stay",                     artist: "The Kid LAROI & Justin Bieber",   weeks: 68 },
-    { title: "Blinding Lights",          artist: "The Weeknd",                      weeks: 86 },
-  ]
-};
-
 const SWATCHES = ['#1a1a2e','#16213e','#0f3460','#533483','#2d6a4f','#1b4332','#6b2d3e','#3d405b','#2c3e50','#1a3a4a'];
 
 function getSwatch(i) { return SWATCHES[i % SWATCHES.length]; }
@@ -292,7 +187,7 @@ let animFrame;
 function startScroll(track) {
   const half = track.scrollHeight / 2;
   let y = 0;
-  const speed = 0.55;
+  const speed = 0.25;
   function step() {
     y += speed;
     if (y >= half) y -= half;
@@ -302,11 +197,38 @@ function startScroll(track) {
   animFrame = requestAnimationFrame(step);
 }
 
+async function fetchChart() {
+  const now = Date.now();
+  const cached = localStorage.getItem(CACHE_KEY);
+  const cachedTs = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
+  if (cached && (now - cachedTs) < ONE_DAY) {
+    return JSON.parse(cached);
+  }
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1000,
+      system: 'You are a music data assistant. Respond ONLY with valid JSON. No markdown, no explanation, no code fences. Return an object with keys: "week" (string, chart week date), "songs" (array of 100 objects each with "title" (string), "artist" (string), "weeks" (integer on chart)). Use your best knowledge of Billboard Hot 100 as of your knowledge cutoff. Fill all 100 entries.',
+      messages: [{ role: 'user', content: 'Give me the Billboard Hot 100 chart. Return only the JSON object described.' }]
+    })
+  });
+  const data = await res.json();
+  const raw = data.content.map(b => b.type === 'text' ? b.text : '').join('');
+  const clean = raw.replace(/```[a-z]*\n?/gi, '').trim();
+  const parsed = JSON.parse(clean);
+  localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
+  localStorage.setItem(CACHE_TS_KEY, String(now));
+  return parsed;
+}
+
 async function init() {
   try {
-    const chart = CHART_DATA;
+    const chart = await fetchChart();
     const dateEl = document.getElementById('chart-date');
-    if (dateEl) dateEl.textContent = chart.week;
+    if (dateEl) dateEl.textContent = chart.week || formatDate(new Date());
     const track = document.getElementById('scroll-track');
     const html = buildRows(chart.songs || []);
     track.innerHTML = html + html;
