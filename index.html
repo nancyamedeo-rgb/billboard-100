@@ -39,13 +39,13 @@
     flex-shrink: 0;
   }
   .header-title {
-    font-size: 20px;
+    font-size: 36px;
     font-weight: 500;
     color: white;
     flex: 1;
   }
   .header-date {
-    font-size: 16px;
+    font-size: 20px;
     color: rgba(255,255,255,0.55);
   }
   .scroll-container {
@@ -64,7 +64,7 @@
     border-bottom: 0.5px solid rgba(255,255,255,0.08);
   }
   .rank {
-    font-size: 18px;
+    font-size: 32px;
     font-weight: 500;
     color: rgba(255,255,255,0.4);
     width: 36px;
@@ -87,7 +87,7 @@
   }
   .song-info { flex: 1; min-width: 0; }
   .song-title {
-    font-size: 19px;
+    font-size: 32px;
     font-weight: 500;
     color: white;
     white-space: nowrap;
@@ -95,7 +95,7 @@
     text-overflow: ellipsis;
   }
   .song-artist {
-    font-size: 15px;
+    font-size: 30px;
     color: rgba(255,255,255,0.55);
     white-space: nowrap;
     overflow: hidden;
@@ -103,7 +103,7 @@
     margin-top: 2px;
   }
   .weeks {
-    font-size: 15px;
+    font-size: 24px;
     color: rgba(255,255,255,0.4);
     text-align: right;
     flex-shrink: 0;
@@ -187,7 +187,7 @@ let animFrame;
 function startScroll(track) {
   const half = track.scrollHeight / 2;
   let y = 0;
-  const speed = 0.25;
+  const speed = 0.15;
   function step() {
     y += speed;
     if (y >= half) y -= half;
