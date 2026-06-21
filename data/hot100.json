@@ -1,0 +1,209 @@
+{
+  "chartDate": "2026-06-20",
+  "chartTitle": "Billboard Hot 100\u2122",
+  "songs": [
+    {
+      "rank": 1,
+      "title": "I Knew It, I Knew You",
+      "artist": "Taylor Swift",
+      "image": null,
+      "peakPos": 1,
+      "lastPos": 0,
+      "weeksOnChart": 1,
+      "isNew": true
+    },
+    {
+      "rank": 2,
+      "title": "Choosin' Texas",
+      "artist": "Ella Langley",
+      "image": null,
+      "peakPos": 1,
+      "lastPos": 2,
+      "weeksOnChart": 34,
+      "isNew": false
+    },
+    {
+      "rank": 3,
+      "title": "Janice STFU",
+      "artist": "Drake",
+      "image": null,
+      "peakPos": 1,
+      "lastPos": 3,
+      "weeksOnChart": 4,
+      "isNew": false
+    },
+    {
+      "rank": 4,
+      "title": "Be Her",
+      "artist": "Ella Langley",
+      "image": null,
+      "peakPos": 2,
+      "lastPos": 4,
+      "weeksOnChart": 17,
+      "isNew": false
+    },
+    {
+      "rank": 5,
+      "title": "Hate That I Made You Love Me",
+      "artist": "Ariana Grande",
+      "image": "https://charts-static.billboard.com/img/2026/06/ariana-grande-i9s-hatethatimadeyouloveme-jv1-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 1,
+      "weeksOnChart": 2,
+      "isNew": false
+    },
+    {
+      "rank": 6,
+      "title": "I Just Might",
+      "artist": "Bruno Mars",
+      "image": "https://charts-static.billboard.com/img/2010/01/bruno-mars-8dl-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 5,
+      "weeksOnChart": 22,
+      "isNew": false
+    },
+    {
+      "rank": 7,
+      "title": "Man I Need",
+      "artist": "Olivia Dean",
+      "image": "https://charts-static.billboard.com/img/2025/08/oliviadean-8k4-manineed-jej-180x180.jpg",
+      "peakPos": 2,
+      "lastPos": 6,
+      "weeksOnChart": 42,
+      "isNew": false
+    },
+    {
+      "rank": 8,
+      "title": "So Easy (To Fall In Love)",
+      "artist": "Olivia Dean",
+      "image": "https://charts-static.billboard.com/img/2022/01/oliviadean-8k4-180x180.jpg",
+      "peakPos": 5,
+      "lastPos": 7,
+      "weeksOnChart": 37,
+      "isNew": false
+    },
+    {
+      "rank": 9,
+      "title": "I Can't Love You Anymore",
+      "artist": "Ella Langley & Morgan Wallen",
+      "image": "https://charts-static.billboard.com/img/2026/05/ellalangley-0yx-icantloveyouanymore-iam-180x180.jpg",
+      "peakPos": 7,
+      "lastPos": 9,
+      "weeksOnChart": 7,
+      "isNew": false
+    },
+    {
+      "rank": 10,
+      "title": "Dracula",
+      "artist": "Tame Impala & JENNIE",
+      "image": "https://charts-static.billboard.com/img/2025/10/tame-impala-nyr-dracula-dtm-180x180.jpg",
+      "peakPos": 10,
+      "lastPos": 10,
+      "weeksOnChart": 37,
+      "isNew": false
+    },
+    {
+      "rank": 11,
+      "title": "Shabang",
+      "artist": "Drake",
+      "image": "https://charts-static.billboard.com/img/2009/04/drake-v3o-180x180.jpg",
+      "peakPos": 4,
+      "lastPos": 8,
+      "weeksOnChart": 4,
+      "isNew": false
+    },
+    {
+      "rank": 12,
+      "title": "Risk It All",
+      "artist": "Bruno Mars",
+      "image": "https://charts-static.billboard.com/img/2010/01/bruno-mars-8dl-180x180.jpg",
+      "peakPos": 4,
+      "lastPos": 14,
+      "weeksOnChart": 15,
+      "isNew": false
+    },
+    {
+      "rank": 13,
+      "title": "Drop Dead",
+      "artist": "Olivia Rodrigo",
+      "image": "https://charts-static.billboard.com/img/2026/05/oliviarodrigo-3wl-dropdead-8cm-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 13,
+      "weeksOnChart": 8,
+      "isNew": false
+    },
+    {
+      "rank": 14,
+      "title": "Boston",
+      "artist": "Stella Lefty",
+      "image": "https://charts-static.billboard.com/img/2026/04/stellalefty-5ru-boston-97g-180x180.jpg",
+      "peakPos": 14,
+      "lastPos": 15,
+      "weeksOnChart": 10,
+      "isNew": false
+    },
+    {
+      "rank": 15,
+      "title": "Stateside",
+      "artist": "PinkPantheress With Zara Larsson",
+      "image": "https://charts-static.billboard.com/img/2025/05/pinkpantheress-j53-stateside-ska-180x180.jpg",
+      "peakPos": 6,
+      "lastPos": 17,
+      "weeksOnChart": 23,
+      "isNew": false
+    },
+    {
+      "rank": 16,
+      "title": "Folded",
+      "artist": "Kehlani",
+      "image": "https://charts-static.billboard.com/img/2025/06/kehlani-b5q-folded-beh-180x180.jpg",
+      "peakPos": 6,
+      "lastPos": 16,
+      "weeksOnChart": 52,
+      "isNew": false
+    },
+    {
+      "rank": 17,
+      "title": "The Cure",
+      "artist": "Olivia Rodrigo",
+      "image": "https://charts-static.billboard.com/img/2026/06/oliviarodrigo-3wl-thecure-gac-180x180.jpg",
+      "peakPos": 5,
+      "lastPos": 11,
+      "weeksOnChart": 3,
+      "isNew": false
+    },
+    {
+      "rank": 18,
+      "title": "Billie Jean",
+      "artist": "Michael Jackson",
+      "image": "https://charts-static.billboard.com/img/1983/01/michael-jackson-y4h-billiejean-fwa-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 19,
+      "weeksOnChart": 32,
+      "isNew": false
+    },
+    {
+      "rank": 19,
+      "title": "Homewrecker",
+      "artist": "sombr",
+      "image": "https://charts-static.billboard.com/img/2026/02/sombr-2ps-homewrecker-z5l-180x180.jpg",
+      "peakPos": 19,
+      "lastPos": 21,
+      "weeksOnChart": 18,
+      "isNew": false
+    },
+    {
+      "rank": 20,
+      "title": "Midnight Sun",
+      "artist": "Zara Larsson",
+      "image": "https://charts-static.billboard.com/img/2025/07/zara-larsson-zej-midnightsun-5mk-180x180.jpg",
+      "peakPos": 20,
+      "lastPos": 23,
+      "weeksOnChart": 21,
+      "isNew": false
+    }
+  ],
+  "updatedAt": "2026-06-21T20:29:48.061557+00:00",
+  "source": "billboard.com (via billboard.py)",
+  "status": "ok"
+}
