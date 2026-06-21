@@ -2,228 +2,262 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Top Songs Chart</title>
+<title>Billboard Hot 100</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body, html { background: transparent; }
-  #widget {
-    background: transparent;
-    width: 100%;
-    font-family: sans-serif;
-    color: white;
-    overflow: hidden;
-    height: 520px;
-    position: relative;
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --hot:#FF4D6D; --hot-dim:#A8324A;
+    --bg:transparent;
+    --ink:#F5F1EA; --ink-dim:#B9AFA4;
+    --dim:#7C7268;
+    --up:#4FD18B; --down:#FF4D6D; --flat:#8A8076;
+    --rule:rgba(245,241,234,0.12);
   }
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 0 12px 0;
-    border-bottom: 0.5px solid rgba(255,255,255,0.2);
-    margin-bottom: 4px;
+  html, body {
+    width:100%; height:100%; overflow:hidden;
+    background:transparent;
+    font-family:'Inter',sans-serif; color:var(--ink);
   }
-  .header-logo {
-    width: 40px;
-    height: 40px;
-    background: #fc3c44;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: white;
-    flex-shrink: 0;
+
+  .stage {
+    width:100%; height:100%;
+    display:flex; flex-direction:column;
+    background:transparent;
   }
-  .header-title {
-    font-size: 46px;
-    font-weight: 500;
-    color: white;
-    flex: 1;
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    display:flex; align-items:baseline; justify-content:space-between;
+    padding:3% 6% 2%;
+    flex-shrink:0;
   }
-  .header-date {
-    font-size: 20px;
-    color: rgba(255,255,255,0.55);
+  .masthead-title {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(22px, 4.2vw, 40px);
+    letter-spacing:0.03em;
+    color:var(--hot);
+    line-height:1;
   }
-  .scroll-container {
-    height: 470px;
-    overflow: hidden;
-    position: relative;
+  .masthead-sub {
+    font-size:clamp(11px, 1.5vw, 15px);
+    color:var(--dim);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-top:0.4em;
   }
-  .scroll-track { will-change: transform; }
-  .track-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 10px 2px;
-    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  .masthead-date {
+    font-size:clamp(11px, 1.6vw, 16px);
+    color:var(--ink-dim);
+    text-align:right;
+    white-space:nowrap;
   }
-  .rank {
-    font-size: 36px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.4);
-    width: 48px;
-    text-align: right;
-    flex-shrink: 0;
+
+  .status-line {
+    padding:0 6% 2%;
+    font-size:clamp(9px, 1.1vw, 12px);
+    color:var(--hot-dim);
+    letter-spacing:0.04em;
+    flex-shrink:0;
   }
-  .rank.top3 { color: #f5c842; }
-  .art {
-    width: 52px;
-    height: 52px;
-    border-radius: 6px;
-    flex-shrink: 0;
-    object-fit: cover;
+  .status-line.error { color:var(--down); }
+
+  /* ── SCROLL AREA ── */
+  .scroll-wrapper { flex:1; overflow:hidden; position:relative; }
+  .scroll-track { display:flex; flex-direction:column; }
+
+  /* ── SONG ROW ── */
+  .song-row {
+    display:flex; align-items:center; gap:4%;
+    padding:3% 6%;
+    position:relative;
   }
-  .song-info { flex: 1; min-width: 0; }
+  .song-row::after {
+    content:"";
+    position:absolute; left:6%; right:6%; bottom:0;
+    height:1px;
+    background:var(--rule);
+  }
+
+  .rank-block {
+    flex-shrink:0;
+    width:13%;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(26px, 6.2vw, 54px);
+    color:var(--hot);
+    line-height:0.9;
+    text-align:center;
+  }
+
+  .song-info {
+    flex:1; min-width:0;
+    display:flex; flex-direction:column; gap:0.3em;
+  }
   .song-title {
-    font-size: 40px;
-    font-weight: 500;
-    color: white;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size:clamp(15px, 2.6vw, 25px);
+    font-weight:700;
+    color:var(--ink);
+    line-height:1.15;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .song-artist {
-    font-size: 38px;
-    color: rgba(255,255,255,0.55);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 2px;
+    font-size:clamp(11px, 1.6vw, 15px);
+    color:var(--ink-dim);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
-    color: rgba(255,255,255,0.5);
-    font-size: 20px;
-    gap: 8px;
+  .song-meta {
+    font-size:clamp(9px, 1.2vw, 12px);
+    color:var(--dim);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .dot-pulse { display: inline-flex; gap: 4px; }
-  .dot-pulse div {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(255,255,255,0.4);
-    animation: pulse 1.2s ease-in-out infinite;
+
+  .move-block {
+    flex-shrink:0;
+    display:flex; flex-direction:column; align-items:flex-end; gap:0.3em;
   }
-  .dot-pulse div:nth-child(2) { animation-delay: 0.2s; }
-  .dot-pulse div:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes pulse { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
-  .error { color: rgba(255,255,255,0.5); font-size: 20px; text-align: center; padding: 20px; line-height: 1.6; }
+  .move-badge {
+    display:flex; align-items:center; gap:0.3em;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(15px, 2.4vw, 24px);
+    letter-spacing:0.02em;
+  }
+  .move-badge.up { color:var(--up); }
+  .move-badge.down { color:var(--down); }
+  .move-badge.flat { color:var(--flat); }
+  .move-badge.new {
+    color:#16100E;
+    background:var(--hot);
+    font-family:'Inter',sans-serif;
+    font-weight:800;
+    font-size:clamp(9px, 1.2vw, 12px);
+    letter-spacing:0.08em;
+    padding:0.25em 0.7em;
+    border-radius:3px;
+    text-transform:uppercase;
+  }
+  .move-arrow { font-size:0.8em; line-height:1; }
+  .peak-line {
+    font-size:clamp(9px, 1.2vw, 12px);
+    color:var(--dim);
+  }
 </style>
 </head>
 <body>
-<div id="widget">
-  <div class="header">
-    <div class="header-logo">♪</div>
-    <div class="header-title">iTunes Top 100 Songs</div>
-    <div class="header-date" id="chart-date"></div>
-  </div>
-  <div class="scroll-container">
-    <div class="scroll-track" id="scroll-track">
-      <div class="loading">
-        <div class="dot-pulse"><div></div><div></div><div></div></div>
-        &nbsp;Fetching chart data…
-      </div>
+
+<div class="stage">
+  <div class="masthead">
+    <div>
+      <div class="masthead-title">HOT 100</div>
+      <div class="masthead-sub">Billboard Chart</div>
     </div>
+    <div class="masthead-date" id="chartDate">—</div>
+  </div>
+  <div class="status-line" id="statusLine">Loading…</div>
+
+  <div class="scroll-wrapper">
+    <div class="scroll-track" id="scrollTrack"></div>
   </div>
 </div>
 
 <script>
-const CACHE_KEY = 'itunes_top100_cache';
-const CACHE_TS_KEY = 'itunes_top100_ts';
-const ONE_DAY = 86400000;
+/* ── CONFIG ──
+   Replace OWNER/REPO with your GitHub username and repo name, pointing at
+   the raw JSON file kept up to date by the GitHub Action
+   (see .github/workflows/update-hot100.yml + scripts/fetch_hot100.py). */
+const DATA_URL = "https://raw.githubusercontent.com/OWNER/REPO/main/data/hot100.json";
 
-function formatDate(d) {
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+const SCROLL_SPEED = 0.4; // px per frame, matches the other Dakboard widgets' pace
+
+function buildMoveBadge(song) {
+  if (song.isNew) {
+    return `<div class="move-badge new">New</div>`;
+  }
+  if (!song.lastPos || song.lastPos === 0) {
+    return `<div class="move-badge new">Re-entry</div>`;
+  }
+  const delta = song.lastPos - song.rank; // positive = moved up
+  if (delta > 0) {
+    return `<div class="move-badge up"><span class="move-arrow">▲</span>${delta}</div>`;
+  }
+  if (delta < 0) {
+    return `<div class="move-badge down"><span class="move-arrow">▼</span>${Math.abs(delta)}</div>`;
+  }
+  return `<div class="move-badge flat"><span class="move-arrow">—</span></div>`;
 }
 
-function buildRows(songs) {
-  return songs.map((s, i) => {
-    const rank = i + 1;
-    const rankClass = rank <= 3 ? 'rank top3' : 'rank';
-    return `<div class="track-row">
-      <div class="${rankClass}">${rank}</div>
-      <img class="art" src="${s.art}" alt="" loading="lazy">
-      <div class="song-info">
-        <div class="song-title">${s.title}</div>
-        <div class="song-artist">${s.artist}</div>
-      </div>
-    </div>`;
-  }).join('');
+function buildSongRow(song) {
+  const metaParts = [];
+  if (song.weeksOnChart) metaParts.push(song.weeksOnChart + (song.weeksOnChart === 1 ? " week" : " weeks") + " on chart");
+
+  return `<div class="song-row">
+    <div class="rank-block">${song.rank}</div>
+    <div class="song-info">
+      <div class="song-title">${song.title}</div>
+      <div class="song-artist">${song.artist}</div>
+      <div class="song-meta">${metaParts.join(" · ")}</div>
+    </div>
+    <div class="move-block">
+      ${buildMoveBadge(song)}
+      ${song.peakPos ? `<div class="peak-line">Peak #${song.peakPos}</div>` : ''}
+    </div>
+  </div>`;
 }
 
-let animFrame;
-function startScroll(track) {
+let scrollPos = 0, scrollRAF = null;
+function startScroll() {
+  if (scrollRAF) cancelAnimationFrame(scrollRAF);
+  const track = document.getElementById("scrollTrack");
   const half = track.scrollHeight / 2;
-  let y = 0;
-  const speed = 0.15;
+  if (half <= 0) return;
   function step() {
-    y += speed;
-    if (y >= half) y -= half;
-    track.style.transform = `translateY(-${y}px)`;
-    animFrame = requestAnimationFrame(step);
+    scrollPos += SCROLL_SPEED;
+    if (scrollPos >= half) scrollPos = 0;
+    track.style.transform = "translateY(-" + scrollPos + "px)";
+    scrollRAF = requestAnimationFrame(step);
   }
-  animFrame = requestAnimationFrame(step);
+  scrollRAF = requestAnimationFrame(step);
 }
 
-async function fetchChart() {
-  const now = Date.now();
-  try {
-    const cached = localStorage.getItem(CACHE_KEY);
-    const cachedTs = parseInt(localStorage.getItem(CACHE_TS_KEY) || '0');
-    if (cached && (now - cachedTs) < ONE_DAY) {
-      return JSON.parse(cached);
-    }
-  } catch(e) {}
-
-  // iTunes Top Songs RSS feed — CORS-enabled, free, no key required
-  // Using the JSON feed endpoint which Apple explicitly supports cross-origin
-  const feedUrl = 'https://itunes.apple.com/us/rss/topsongs/limit=100/json';
-  const res = await fetch(feedUrl);
-  if (!res.ok) throw new Error(`Feed returned ${res.status}`);
-  const json = await res.json();
-
-  const entries = json.feed.entry || [];
-  const songs = entries.map(entry => ({
-    title: entry['im:name'].label,
-    artist: entry['im:artist'].label,
-    art: entry['im:image']?.[2]?.label || entry['im:image']?.[0]?.label || '',
-  }));
-
-  const week = formatDate(new Date());
-  const parsed = { week, songs };
-
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(parsed));
-    localStorage.setItem(CACHE_TS_KEY, String(now));
-  } catch(e) {}
-
-  return parsed;
+function setStatus(msg, isError) {
+  const el = document.getElementById("statusLine");
+  el.textContent = msg;
+  el.className = "status-line" + (isError ? " error" : "");
 }
 
-async function init() {
+async function fetchHot100() {
+  setStatus("Fetching latest chart…", false);
   try {
-    const chart = await fetchChart();
-    const dateEl = document.getElementById('chart-date');
-    if (dateEl) dateEl.textContent = chart.week || formatDate(new Date());
-    const track = document.getElementById('scroll-track');
-    const songs = chart.songs || [];
-    if (songs.length === 0) {
-      track.innerHTML = '<div class="error">No chart data found.</div>';
-      return;
+    const res = await fetch(DATA_URL + "?t=" + Date.now());
+    if (!res.ok) throw new Error("Fetch failed: HTTP " + res.status);
+    const data = await res.json();
+
+    if (data.status === "error" || !data.songs || data.songs.length === 0) {
+      throw new Error(data.lastError || "No chart data available yet");
     }
-    const html = buildRows(songs);
-    track.innerHTML = html + html;
-    startScroll(track);
-  } catch(e) {
-    const track = document.getElementById('scroll-track');
-    if (track) track.innerHTML = `<div class="error">Unable to load chart data.<br>${e.message}</div>`;
+
+    document.getElementById("chartDate").textContent = data.chartDate
+      ? "Week of " + data.chartDate
+      : "";
+
+    const track = document.getElementById("scrollTrack");
+    const rowsHtml = data.songs.map(buildSongRow).join("");
+    track.innerHTML = rowsHtml + rowsHtml; // duplicate for seamless loop
+    startScroll();
+
+    const updated = data.updatedAt ? new Date(data.updatedAt) : new Date();
+    const label = data.status === "stale"
+      ? "Showing cached data from " + updated.toLocaleTimeString()
+      : "Updated " + updated.toLocaleTimeString();
+    setStatus(label, data.status === "stale");
+  } catch (e) {
+    console.error("Hot 100 fetch error:", e);
+    setStatus("Update failed — showing last data", true);
   }
 }
 
-init();
+fetchHot100();
+setInterval(fetchHot100, 15 * 60 * 1000);   // poll every 15 min
+setTimeout(() => location.reload(), 6 * 60 * 60 * 1000); // safety-net reload every 6 hrs
 </script>
 </body>
 </html>
