@@ -1,0 +1,41 @@
+name: Update Billboard Hot 100
+
+on:
+  schedule:
+    # Billboard publishes a new chart once a week (Tuesdays). Checking
+    # every 6 hours catches the update promptly without hammering the site.
+    - cron: '35 */6 * * *'
+  workflow_dispatch: {}   # lets you trigger it manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update-hot100:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install billboard.py==7.1.0
+
+      - name: Fetch latest Hot 100 chart
+        run: python scripts/fetch_hot100.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/hot100.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update Billboard Hot 100 [automated]"
+            git push
+          fi
