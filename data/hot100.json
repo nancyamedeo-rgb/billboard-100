@@ -1,209 +1,209 @@
 {
-  "chartDate": "2026-06-27",
+  "chartDate": "2026-07-04",
   "chartTitle": "Billboard Hot 100\u2122",
   "songs": [
     {
       "rank": 1,
-      "title": "I Knew It, I Knew You",
-      "artist": "Taylor Swift",
-      "image": null,
-      "peakPos": 1,
-      "lastPos": 1,
-      "weeksOnChart": 2,
-      "isNew": false
-    },
-    {
-      "rank": 2,
       "title": "Choosin' Texas",
       "artist": "Ella Langley",
       "image": null,
       "peakPos": 1,
       "lastPos": 2,
-      "weeksOnChart": 35,
+      "weeksOnChart": 36,
       "isNew": false
     },
     {
-      "rank": 3,
-      "title": "Stupid Song",
-      "artist": "Olivia Rodrigo",
-      "image": null,
-      "peakPos": 3,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
-    },
-    {
-      "rank": 4,
-      "title": "Drop Dead",
-      "artist": "Olivia Rodrigo",
+      "rank": 2,
+      "title": "I Knew It, I Knew You",
+      "artist": "Taylor Swift",
       "image": null,
       "peakPos": 1,
-      "lastPos": 13,
-      "weeksOnChart": 9,
-      "isNew": false
-    },
-    {
-      "rank": 5,
-      "title": "Be Her",
-      "artist": "Ella Langley",
-      "image": "https://charts-static.billboard.com/img/2023/06/ellalangley-yci-180x180.jpg",
-      "peakPos": 2,
-      "lastPos": 4,
-      "weeksOnChart": 18,
-      "isNew": false
-    },
-    {
-      "rank": 6,
-      "title": "The Cure",
-      "artist": "Olivia Rodrigo",
-      "image": "https://charts-static.billboard.com/img/2026/06/oliviarodrigo-3wl-thecure-gac-180x180.jpg",
-      "peakPos": 5,
-      "lastPos": 17,
-      "weeksOnChart": 4,
-      "isNew": false
-    },
-    {
-      "rank": 7,
-      "title": "Janice STFU",
-      "artist": "Drake",
-      "image": "https://charts-static.billboard.com/img/2009/04/drake-v3o-180x180.jpg",
-      "peakPos": 1,
-      "lastPos": 3,
-      "weeksOnChart": 5,
-      "isNew": false
-    },
-    {
-      "rank": 8,
-      "title": "Hate That I Made You Love Me",
-      "artist": "Ariana Grande",
-      "image": "https://charts-static.billboard.com/img/2026/06/ariana-grande-i9s-hatethatimadeyouloveme-jv1-180x180.jpg",
-      "peakPos": 1,
-      "lastPos": 5,
+      "lastPos": 1,
       "weeksOnChart": 3,
       "isNew": false
     },
     {
-      "rank": 9,
-      "title": "Honeybee",
-      "artist": "Olivia Rodrigo",
-      "image": "https://charts-static.billboard.com/img/2026/06/oliviarodrigo-3wl-honeybee-spz-180x180.jpg",
-      "peakPos": 9,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
+      "rank": 3,
+      "title": "Be Her",
+      "artist": "Ella Langley",
+      "image": null,
+      "peakPos": 2,
+      "lastPos": 5,
+      "weeksOnChart": 19,
+      "isNew": false
     },
     {
-      "rank": 10,
+      "rank": 4,
+      "title": "Stupid Song",
+      "artist": "Olivia Rodrigo",
+      "image": null,
+      "peakPos": 3,
+      "lastPos": 3,
+      "weeksOnChart": 2,
+      "isNew": false
+    },
+    {
+      "rank": 5,
+      "title": "Drop Dead",
+      "artist": "Olivia Rodrigo",
+      "image": "https://charts-static.billboard.com/img/2026/05/oliviarodrigo-3wl-dropdead-8cm-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 4,
+      "weeksOnChart": 10,
+      "isNew": false
+    },
+    {
+      "rank": 6,
+      "title": "Janice STFU",
+      "artist": "Drake",
+      "image": "https://charts-static.billboard.com/img/2009/04/drake-v3o-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 7,
+      "weeksOnChart": 6,
+      "isNew": false
+    },
+    {
+      "rank": 7,
+      "title": "Hate That I Made You Love Me",
+      "artist": "Ariana Grande",
+      "image": "https://charts-static.billboard.com/img/2026/06/ariana-grande-i9s-hatethatimadeyouloveme-jv1-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 8,
+      "weeksOnChart": 4,
+      "isNew": false
+    },
+    {
+      "rank": 8,
       "title": "Man I Need",
       "artist": "Olivia Dean",
       "image": "https://charts-static.billboard.com/img/2025/08/oliviadean-8k4-manineed-jej-180x180.jpg",
       "peakPos": 2,
-      "lastPos": 7,
-      "weeksOnChart": 43,
+      "lastPos": 10,
+      "weeksOnChart": 44,
       "isNew": false
     },
     {
-      "rank": 11,
-      "title": "I Just Might",
-      "artist": "Bruno Mars",
-      "image": "https://charts-static.billboard.com/img/2010/01/bruno-mars-8dl-180x180.jpg",
-      "peakPos": 1,
-      "lastPos": 6,
-      "weeksOnChart": 23,
-      "isNew": false
-    },
-    {
-      "rank": 12,
-      "title": "Maggots For Brains",
-      "artist": "Olivia Rodrigo",
-      "image": "https://charts-static.billboard.com/img/2019/11/oliviarodrigo-3wl-180x180.jpg",
-      "peakPos": 12,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
-    },
-    {
-      "rank": 13,
-      "title": "So Easy (To Fall In Love)",
-      "artist": "Olivia Dean",
-      "image": "https://charts-static.billboard.com/img/2022/01/oliviadean-8k4-180x180.jpg",
-      "peakPos": 5,
-      "lastPos": 8,
-      "weeksOnChart": 38,
-      "isNew": false
-    },
-    {
-      "rank": 14,
+      "rank": 9,
       "title": "I Can't Love You Anymore",
       "artist": "Ella Langley & Morgan Wallen",
       "image": "https://charts-static.billboard.com/img/2026/05/ellalangley-0yx-icantloveyouanymore-iam-180x180.jpg",
       "peakPos": 7,
-      "lastPos": 9,
-      "weeksOnChart": 8,
+      "lastPos": 14,
+      "weeksOnChart": 9,
       "isNew": false
     },
     {
-      "rank": 15,
-      "title": "My Way",
-      "artist": "Olivia Rodrigo",
-      "image": "https://charts-static.billboard.com/img/2019/11/oliviarodrigo-3wl-180x180.jpg",
-      "peakPos": 15,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
-    },
-    {
-      "rank": 16,
-      "title": "Begged",
-      "artist": "Olivia Rodrigo",
-      "image": "https://charts-static.billboard.com/img/2019/11/oliviarodrigo-3wl-180x180.jpg",
-      "peakPos": 16,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
-    },
-    {
-      "rank": 17,
-      "title": "What's Wrong With Me",
-      "artist": "Olivia Rodrigo & Robert Smith",
-      "image": "https://charts-static.billboard.com/img/2019/11/oliviarodrigo-3wl-180x180.jpg",
-      "peakPos": 17,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
-    },
-    {
-      "rank": 18,
+      "rank": 10,
       "title": "Dracula",
       "artist": "Tame Impala & JENNIE",
       "image": "https://charts-static.billboard.com/img/2025/10/tame-impala-nyr-dracula-dtm-180x180.jpg",
       "peakPos": 10,
-      "lastPos": 10,
-      "weeksOnChart": 38,
+      "lastPos": 18,
+      "weeksOnChart": 39,
+      "isNew": false
+    },
+    {
+      "rank": 11,
+      "title": "So Easy (To Fall In Love)",
+      "artist": "Olivia Dean",
+      "image": "https://charts-static.billboard.com/img/2022/01/oliviadean-8k4-180x180.jpg",
+      "peakPos": 5,
+      "lastPos": 13,
+      "weeksOnChart": 39,
+      "isNew": false
+    },
+    {
+      "rank": 12,
+      "title": "I Just Might",
+      "artist": "Bruno Mars",
+      "image": "https://charts-static.billboard.com/img/2010/01/bruno-mars-8dl-180x180.jpg",
+      "peakPos": 1,
+      "lastPos": 11,
+      "weeksOnChart": 24,
+      "isNew": false
+    },
+    {
+      "rank": 13,
+      "title": "The Cure",
+      "artist": "Olivia Rodrigo",
+      "image": "https://charts-static.billboard.com/img/2026/06/oliviarodrigo-3wl-thecure-gac-180x180.jpg",
+      "peakPos": 5,
+      "lastPos": 6,
+      "weeksOnChart": 5,
+      "isNew": false
+    },
+    {
+      "rank": 14,
+      "title": "Boston",
+      "artist": "Stella Lefty",
+      "image": "https://charts-static.billboard.com/img/2026/04/stellalefty-5ru-boston-97g-180x180.jpg",
+      "peakPos": 14,
+      "lastPos": 22,
+      "weeksOnChart": 12,
+      "isNew": false
+    },
+    {
+      "rank": 15,
+      "title": "Risk It All",
+      "artist": "Bruno Mars",
+      "image": "https://charts-static.billboard.com/img/2010/01/bruno-mars-8dl-180x180.jpg",
+      "peakPos": 4,
+      "lastPos": 23,
+      "weeksOnChart": 17,
+      "isNew": false
+    },
+    {
+      "rank": 16,
+      "title": "Homewrecker",
+      "artist": "sombr",
+      "image": "https://charts-static.billboard.com/img/2026/02/sombr-2ps-homewrecker-z5l-180x180.jpg",
+      "peakPos": 16,
+      "lastPos": 28,
+      "weeksOnChart": 20,
+      "isNew": false
+    },
+    {
+      "rank": 17,
+      "title": "Stateside",
+      "artist": "PinkPantheress With Zara Larsson",
+      "image": "https://charts-static.billboard.com/img/2025/05/pinkpantheress-j53-stateside-ska-180x180.jpg",
+      "peakPos": 6,
+      "lastPos": 24,
+      "weeksOnChart": 25,
+      "isNew": false
+    },
+    {
+      "rank": 18,
+      "title": "Honeybee",
+      "artist": "Olivia Rodrigo",
+      "image": "https://charts-static.billboard.com/img/2026/06/oliviarodrigo-3wl-honeybee-spz-180x180.jpg",
+      "peakPos": 9,
+      "lastPos": 9,
+      "weeksOnChart": 2,
       "isNew": false
     },
     {
       "rank": 19,
-      "title": "u + me = <3",
-      "artist": "Olivia Rodrigo",
-      "image": "https://charts-static.billboard.com/img/2019/11/oliviarodrigo-3wl-180x180.jpg",
+      "title": "Midnight Sun",
+      "artist": "Zara Larsson",
+      "image": "https://charts-static.billboard.com/img/2025/07/zara-larsson-zej-midnightsun-5mk-180x180.jpg",
       "peakPos": 19,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
+      "lastPos": 29,
+      "weeksOnChart": 23,
+      "isNew": false
     },
     {
       "rank": 20,
-      "title": "Expectations",
-      "artist": "Olivia Rodrigo",
-      "image": "https://charts-static.billboard.com/img/2019/11/oliviarodrigo-3wl-180x180.jpg",
-      "peakPos": 20,
-      "lastPos": 0,
-      "weeksOnChart": 1,
-      "isNew": true
+      "title": "Shabang",
+      "artist": "Drake",
+      "image": "https://charts-static.billboard.com/img/2009/04/drake-v3o-180x180.jpg",
+      "peakPos": 4,
+      "lastPos": 26,
+      "weeksOnChart": 6,
+      "isNew": false
     }
   ],
-  "updatedAt": "2026-06-29T22:38:39.133644+00:00",
+  "updatedAt": "2026-06-30T11:33:01.244756+00:00",
   "source": "billboard.com (via billboard.py)",
   "status": "ok"
 }
